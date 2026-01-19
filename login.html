@@ -1,0 +1,268 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Login - AIEdu</title>
+
+<style>
+:root {
+  --primary: #1e40af;
+  --primary-dark: #1e3a8a;
+  --accent: #3b82f6;
+  --bg: #f8fafc;
+  --card: #ffffff;
+  --text: #0f172a;
+  --muted: #64748b;
+  --border: #e2e8f0;
+  --shadow: 0 20px 25px -5px rgba(0,0,0,.08),
+            0 8px 20px -6px rgba(0,0,0,.06);
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial;
+  background: var(--bg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+}
+
+/* MAIN WRAPPER - compact card by default */
+.app {
+  width: 100%;
+  max-width: 640px;
+  min-height: auto;
+  background: var(--card);
+  display: flex;
+  flex-direction: column;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: var(--shadow);
+}
+
+/* LEFT BRAND (becomes left on wider screens) */
+.brand {
+  flex: none;
+  background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+  color: white;
+  padding: 22px 18px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.brand img {
+  width: 120px;
+  height: 120px;
+  object-fit: contain;
+  margin-bottom: 12px;
+  animation: float 6s ease-in-out infinite;
+}
+
+.brand h2 {
+  font-size: 20px;
+  margin-bottom: 4px;
+  letter-spacing: 1px;
+}
+
+.brand p {
+  opacity: .95;
+  font-size: 13px;
+}
+
+/* FLOAT ANIMATION */
+@keyframes float {
+  0% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
+  100% { transform: translateY(0); }
+}
+
+/* FORM */
+.container {
+  padding: 20px 18px 24px;
+  flex: 1 1 auto;
+}
+
+h1 {
+  margin: 0 0 6px;
+  font-size: 20px;
+  color: var(--primary);
+}
+
+p.lead {
+  margin-bottom: 18px;
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.row { display: grid; gap: 12px; }
+
+label {
+  font-size: 13px;
+  font-weight: 600;
+  margin-bottom: 6px;
+  display: block;
+}
+
+.inline {
+  display: flex;
+  gap: 8px;
+}
+
+input {
+  width: 100%;
+  padding: 12px;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  font-size: 14px;
+  background: #fafafa;
+  outline: none;
+}
+
+input:focus {
+  border-color: var(--primary);
+  background: #fff;
+  box-shadow: 0 0 0 4px rgba(30,64,175,.08);
+}
+
+.toggle {
+  background: none;
+  border: none;
+  color: var(--accent);
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.actions {
+  margin-top: 18px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+button {
+  background: var(--primary);
+  color: #fff;
+  border: none;
+  padding: 12px 16px;
+  border-radius: 10px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+button:disabled { opacity: 0.6; }
+
+.muted { font-size: 13px; color: var(--muted); }
+
+.success {
+  margin-top: 12px;
+  padding: 8px 12px;
+  border-radius: 10px;
+  font-weight: 600;
+}
+
+/* LARGER SCREENS: left brand and right form */
+@media (min-width: 560px) {
+  .app { flex-direction: row; max-width: 720px; }
+  .brand { width: 240px; padding: 28px 18px; }
+  .brand img { width: 96px; height: 96px; margin-bottom: 10px; }
+  .container { padding: 28px 22px; }
+}
+
+/* SMALLER MOBILE */
+@media (max-width: 480px) {
+  .app { max-width: 100%; }
+  .brand img { width: 96px; height: 96px; }
+  .container { padding: 16px; }
+}
+</style>
+</head>
+
+<body>
+
+<div class="app">
+
+  <!-- LEFT BLUE SECTION -->
+  <div class="brand">
+    <img src="image.png" alt="AI Tutor">
+    <h2>AIEdu</h2>
+    <p>Your AI learning companion</p>
+  </div>
+
+  <!-- RIGHT LOGIN FORM -->
+  <main class="container">
+    <h1>Welcome back</h1>
+    <p class="lead">Log in to your AIEdu account.</p>
+
+    <form id="loginForm" novalidate>
+      <div class="row">
+
+        <div>
+          <label>Email address</label>
+          <input id="email" type="email" required placeholder="you@example.com">
+        </div>
+
+        <div>
+          <label>Password</label>
+          <div class="inline">
+            <input id="password" type="password" required minlength="8">
+            <button type="button" class="toggle" id="togglePassword">Show</button>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="actions">
+        <div class="muted">New here? <a href="register.html">Create account</a></div>
+        <button id="loginSubmit" type="submit">Log in</button>
+      </div>
+
+      <div id="message" style="display:none" class="success"></div>
+    </form>
+  </main>
+
+</div>
+
+<script type="module">
+await import('./auth.js');
+
+const form = document.getElementById('loginForm');
+const toggle = document.getElementById('togglePassword');
+const password = document.getElementById('password');
+const submitBtn = document.getElementById('loginSubmit');
+const message = document.getElementById('message');
+
+toggle.onclick = () => {
+  password.type = password.type === 'password' ? 'text' : 'password';
+  toggle.textContent = password.type === 'password' ? 'Show' : 'Hide';
+};
+
+form.onsubmit = async (e) => {
+  e.preventDefault();
+  submitBtn.disabled = true;
+
+  try {
+    const user = await window.loginUser();
+    message.style.display = 'block';
+    message.textContent = `Welcome ${user.email}`;
+    setTimeout(() => location.href = 'result.html', 800);
+  } catch (err) {
+    message.style.display = 'block';
+    message.style.background = '#fef2f2';
+    message.style.color = '#991b1b';
+    message.textContent = err.message;
+  }
+
+  submitBtn.disabled = false;
+};
+</script>
+
+</body>
+</html>

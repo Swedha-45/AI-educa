@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Quiz Portal</title>
+
+<style>
+/* ---------- Base Theme ---------- */
+body {
+  font-family: 'Poppins', Arial, sans-serif;
+  background: linear-gradient(135deg, #e3f2fd, #f0f9ff);
+  padding: 30px;
+  color: #1a237e;
+}
+
+h1 {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.hidden {
+  display: none !important;
+}
+
+/* ---------- Header with Home Button ---------- */
+header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1000;
+  background: linear-gradient(90deg, #4a90e2, #6a7cff);
+  color: white;
+  padding: 20px;
+  text-align: center;
+  font-size: 24px;
+  font-weight: 600;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.back-btn {
+  position: absolute;
+  left: 20px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: white;
+  text-decoration: none;
+  font-size: 16px;
+  font-weight: 400;
+  background: rgba(255, 255, 255, 0.15);
+  padding: 8px 15px;
+  border-radius: 12px;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(5px);
+}
+
+.back-btn:hover {
+  background: rgba(255, 255, 255, 0.3);
+  transform: translateX(-3px);
+}
+
+.back-btn svg {
+  transition: transform 0.3s ease;
+}
+
+.back-btn:hover svg {
+  transform: translateX(-2px);
+}
+
+/* ---------- Chapter Buttons ---------- */
+#chapterButtons {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 15px;
+  max-width: 900px;
+  margin: auto;
+  padding-top: 80px; /* Adjust for fixed header */
+}
+
+.quiz-btn {
+  padding: 18px;
+  border: none;
+  border-radius: 14px;
+  font-size: 16px;
+  font-weight: 600;
+  background: linear-gradient(135deg, #42a5f5, #1e88e5);
+  color: white;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.quiz-btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px rgba(30,136,229,0.35);
+}
+
+.quiz-btn:disabled {
+  background: #ccc;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+  opacity: 0.6;
+  color: #666;
+}
+
+/* ---------- Quiz Card ---------- */
+#quiz {
+  max-width: 750px;
+  margin: 40px auto;
+  background: white;
+  padding: 35px;
+  border-radius: 20px;
+  box-shadow: 0 15px 40px rgba(30,136,229,0.18);
+}
+
+#category {
+  text-align: center;
+  color: #1e88e5;
+  margin-bottom: 15px;
+}
+
+#question {
+  font-size: 20px;
+  font-weight: 600;
+  margin-bottom: 25px;
+}
+
+/* ---------- Options as Cards ---------- */
+#answers {
+  display: grid;
+  gap: 15px;
+}
+
+#answers button {
+  background: #f5fbff;
+  border: 2px solid #90caf9;
+  border-radius: 14px;
+  padding: 16px;
+  font-size: 16px;
+  text-align: left;
+  cursor: pointer;
+  transition: 0.25s;
+}
+
+#answers button:hover {
+  background: #e3f2fd;
+  transform: scale(1.01);
+}
+
+.correct {
+  background: #c8e6c9 !important;
+  border-color: #4caf50 !important;
+  color: #1b5e20;
+}
+
+.wrong {
+  background: #ffcdd2 !important;
+  border-color: #f44336 !important;
+  color: #b71c1c;
+}
+
+/* ---------- Progress ---------- */
+#progressBar {
+  height: 6px;
+  background: #bbdefb;
+  border-radius: 10px;
+  margin: 25px 0 10px;
+  overflow: hidden;
+}
+
+#progressBar div {
+  height: 100%;
+  width: 0;
+  background: linear-gradient(90deg, #42a5f5, #1e88e5);
+  transition: width 0.3s;
+}
+
+/* ---------- Info Row ---------- */
+.quiz-info {
+  display: flex;
+  justify-content: center;
+  font-size: 14px;
+  color: #0d47a1;
+}
+
+/* ---------- Next Button ---------- */
+#nextBtn {
+  margin-top: 25px;
+  width: 100%;
+  padding: 14px;
+  border-radius: 14px;
+  border: none;
+  font-size: 16px;
+  font-weight: 600;
+  background: linear-gradient(135deg, #42a5f5, #1e88e5);
+  color: white;
+  cursor: pointer;
+}
+
+/* ---------- Result ---------- */
+#result {
+  max-width: 500px;
+  margin: 50px auto;
+  background: white;
+  padding: 35px;
+  border-radius: 20px;
+  text-align: center;
+  box-shadow: 0 15px 40px rgba(30,136,229,0.18);
+}
+
+#result button {
+  margin-top: 20px;
+  padding: 12px 22px;
+  border-radius: 12px;
+  border: none;
+  background: #1e88e5;
+  color: white;
+  font-size: 15px;
+  cursor: pointer;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <a href="result.html" class="back-btn">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
+    Home
+  </a>
+  🚀 Quiz Portal
+</header>
+
+<!-- Chapter Buttons -->
+<div id="chapterButtons">
+  <button class="quiz-btn" data-chapter="1">Arithmetic Quiz</button>
+  <button class="quiz-btn" data-chapter="2">Algebra Quiz</button>
+  <button class="quiz-btn" data-chapter="3">Logical Reasoning Quiz</button>
+  <button class="quiz-btn" data-chapter="4">Verbal Ability Quiz</button>
+  <button class="quiz-btn" data-chapter="5">Non-Verbal & DI Quiz</button>
+  <button class="quiz-btn" data-chapter="0">Mixed Quiz</button>
+</div>
+
+<!-- Quiz Section -->
+<div id="quiz" class="hidden">
+  <h2 id="category"></h2>
+  <p id="question"></p>
+
+  <div id="answers"></div>
+
+  <div id="progressBar"><div></div></div>
+
+  <div class="quiz-info">
+    <span>Question <span id="qNo"></span> / <span id="totalQ"></span></span>
+  </div>
+
+  <button id="nextBtn">Next</button>
+</div>
+
+<!-- Result Section -->
+<div id="result" class="hidden">
+  <h2>Quiz Result</h2>
+  <p id="score"></p>
+  <button onclick="window.location.reload()">Back to Chapters</button>
+</div>
+
+<script type="module" src="quiz3.js"></script>
+</body>
+</html>

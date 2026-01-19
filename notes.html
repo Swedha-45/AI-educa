@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Notes</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        /* ===== GLOBAL RESET ===== */
+        /* This removes the default browser margins that cause the white gap */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html, body {
+            width: 100%;
+            min-height: 100vh;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            /* background-attachment: fixed ensures the gradient doesn't move when scrolling */
+            background: linear-gradient(180deg, #5893ac 0%, #f9fffc 100%);
+            background-attachment: fixed;
+            background-repeat: no-repeat;
+        }
+
+        /* ===== HEADER FIX ===== */
+        header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
+    background: linear-gradient(90deg, #4a90e2, #6a7cff);
+    color: white;
+    padding: 20px;
+    text-align: center;
+    font-size: 24px;
+    font-weight: 600;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    /* Added Flexbox to align button and title */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.back-btn {
+    position: absolute;
+    left: 20px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: white;
+    text-decoration: none;
+    font-size: 16px;
+    font-weight: 400;
+    background: rgba(255, 255, 255, 0.15);
+    padding: 8px 15px;
+    border-radius: 12px;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(5px);
+}
+
+.back-btn:hover {
+    background: rgba(255, 255, 255, 0.3);
+    transform: translateX(-3px);
+}
+
+.back-btn svg {
+    transition: transform 0.3s ease;
+}
+
+.back-btn:hover svg {
+    transform: translateX(-2px);
+}
+
+/* Adjust for mobile screens */
+@media (max-width: 600px) {
+    header { font-size: 18px; padding: 15px; }
+    .back-btn { 
+        left: 10px; 
+        padding: 6px 10px; 
+        font-size: 14px; 
+    }
+}
+
+        /* ===== CONTAINER ===== */
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 28px;
+            /* Crucial: Padding-top must be larger than header height to prevent overlap */
+            padding-top: 110px; 
+        }
+
+        /* ===== CARD UI ===== */
+        .card {
+            background: white;
+            border-radius: 24px;
+            padding: 26px;
+            margin-bottom: 28px;
+            box-shadow: 0 14px 30px rgba(0,0,0,0.12);
+            animation: fadeUp 0.6s ease;
+        }
+
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .card h2 {
+            margin-top: 0;
+            color: #4a90e2;
+            font-weight: 700;
+            font-size: 22px;
+            margin-bottom: 15px;
+        }
+
+        /* ===== INPUTS ===== */
+        input, textarea {
+            width: 100%;
+            padding: 14px 16px;
+            margin-top: 12px;
+            border-radius: 14px;
+            border: 1px solid #e0e0e0;
+            font-size: 15px;
+            font-family: 'Poppins', sans-serif;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+
+        input:focus, textarea:focus {
+            border-color: #4a90e2;
+        }
+
+        textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+
+        /* ===== BUTTON ===== */
+        button {
+            margin-top: 18px;
+            border: none;
+            background: linear-gradient(135deg, #4a90e2, #6a7cff);
+            color: white;
+            padding: 12px 35px;
+            border-radius: 18px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 10px rgba(74, 144, 226, 0.3);
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(74, 144, 226, 0.4);
+        }
+
+        /* ===== NOTES GRID ===== */
+        #notesList {
+            list-style: none;
+            padding: 0;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 20px;
+        }
+
+        /* ===== NOTE CARD ===== */
+        .note {
+            background: linear-gradient(135deg, #f8fbff, #ffffff);
+            border-radius: 20px;
+            padding: 20px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+            border: 1px solid rgba(0,0,0,0.03);
+        }
+
+        .note h3 {
+            margin: 0;
+            font-size: 18px;
+            color: #333;
+        }
+
+        .note p {
+            margin-top: 10px;
+            font-size: 14px;
+            line-height: 1.6;
+            color: #555;
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+    <a href="result.html" class="back-btn">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
+        Home
+    </a>
+    📝Notes
+</header>
+
+<div class="container">
+
+    <div class="card">
+        <h2>Create a New Note</h2>
+        <input id="title" placeholder="Note Title" />
+        <textarea id="content" placeholder="Write your note here..."></textarea>
+        <button id="saveNote">Save Note</button>
+    </div>
+
+    <div class="card">
+        <h2>My Saved Notes</h2>
+        <ul id="notesList"></ul>
+    </div>
+
+</div>
+
+<script type="module" src="notes.js"></script>
+</body>
+</html>

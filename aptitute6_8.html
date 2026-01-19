@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Grade 6–8 Aptitude Learning</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Poppins',sans-serif;}
+body{min-height:100vh;background:linear-gradient(135deg,#e8f5e9,#e3f2fd);display:flex;justify-content:center;align-items:flex-start;padding:30px;overflow-x:hidden;position:relative;}
+.symbol{position:absolute;font-size:50px;opacity:0.12;animation:float 8s infinite ease-in-out;}
+.symbol:nth-child(1){top:8%;left:10%;}
+.symbol:nth-child(2){top:28%;right:12%;animation-delay:2s;}
+.symbol:nth-child(3){bottom:20%;left:8%;animation-delay:4s;}
+.symbol:nth-child(4){bottom:10%;right:15%;animation-delay:6s;}
+@keyframes float{0%,100%{transform:translateY(0);}50%{transform:translateY(-30px);}}
+.container{max-width:480px;width:100%;animation:fadeIn 1.2s ease;position:relative;}
+@keyframes fadeIn{from{opacity:0;transform:translateY(25px);}to{opacity:1;transform:translateY(0);}}
+.header{text-align:center;margin-bottom:32px;}
+.header h1{font-size:36px;font-weight:800;color:#1b1b1b;animation:pulse 3s infinite;}
+@keyframes pulse{0%,100%{transform:scale(1);}50%{transform:scale(1.03);}}
+.header p{font-size:18px;color:#555;margin-top:6px;}
+.card{background:linear-gradient(135deg,#ffffff,#f7faff);border-radius:22px;padding:24px 26px;margin-bottom:24px;box-shadow:0 14px 32px rgba(0,0,0,0.12);cursor:pointer;display:flex;align-items:center;gap:20px;position:relative;overflow:hidden;transition:all 0.4s ease;animation:slideUp 0.8s ease both;}
+.card:nth-child(2){animation-delay:0.1s;}
+.card:nth-child(3){animation-delay:0.2s;}
+.card:nth-child(4){animation-delay:0.3s;}
+.card:nth-child(5){animation-delay:0.4s;}
+@keyframes slideUp{from{opacity:0;transform:translateY(35px);}to{opacity:1;transform:translateY(0);}}
+.card::before{content:"";position:absolute;left:0;top:0;width:7px;height:100%;background:#42a5f5;}
+.card:hover{transform:translateY(-10px) scale(1.04);box-shadow:0 22px 44px rgba(0,0,0,0.22);}
+.icon{font-size:44px;background:#e3f2fd;padding:16px;border-radius:18px;transition:transform 0.4s ease;}
+.card:hover .icon{transform:rotate(-6deg) scale(1.12);}
+.content h3{font-size:21px;font-weight:700;color:#222;}
+.content p{font-size:16px;color:#555;margin-top:6px;line-height:1.5;}
+.c1::before{background:#43a047;}
+.c2::before{background:#1e88e5;}
+.c3::before{background:#8e24aa;}
+.c4::before{background:#fb8c00;}
+.c5::before{background:#e53935;}
+.chapter-container{display:none;width:100%;max-width:760px;position:relative;}
+.slide{display:none;background:linear-gradient(135deg,#ffffff,#f4f9ff);border-radius:28px;padding:40px 42px;box-shadow:0 18px 42px rgba(0,0,0,0.18);animation:fadeIn 0.7s ease;}
+.slide.active{display:block;}
+@keyframes fadeIn{from{opacity:0;transform:translateY(30px);}to{opacity:1;transform:translateY(0);}}
+.slide h2{font-size:36px;color:#0d47a1;margin-bottom:16px;}
+.slide p{font-size:22px;line-height:1.75;color:#333;margin-bottom:18px;}
+.example{background:#e3f2fd;padding:22px 24px;border-radius:18px;margin:24px 0;font-size:22px;display:flex;align-items:flex-start;gap:14px;}
+.example span{font-size:44px;}
+.practice{background:#bbdefb;padding:18px 20px;border-radius:16px;font-size:22px;margin-bottom:10px;}
+.nav{display:flex;justify-content:space-between;margin-top:30px;}
+button{background:linear-gradient(135deg,#1e88e5,#42a5f5);border:none;padding:16px 32px;border-radius:16px;color:white;font-size:22px;cursor:pointer;transition:0.3s;}
+button:hover:not(:disabled){transform:translateY(-3px) scale(1.05);}
+button:disabled{background:#90caf9;cursor:not-allowed;}
+</style>
+</head>
+<body>
+
+<div class="symbol">%</div>
+<div class="symbol">√</div>
+<div class="symbol">∑</div>
+<div class="symbol">→</div>
+
+<!-- INDEX PAGE -->
+<div class="container" id="indexPage">
+    <div class="header">
+        <h1>Grade 6–8 Aptitude</h1>
+        <p>Build speed, logic & problem-solving skills 🚀</p>
+    </div>
+    <div class="card c1" onclick="openChapter('chapter1')">
+        <div class="icon">➗</div>
+        <div class="content">
+            <h3>Chapter 1: Arithmetic Fundamentals</h3>
+            <p>Fractions, decimals, ratios, percentages and averages</p>
+        </div>
+    </div>
+    <div class="card c2" onclick="openChapter('chapter2')">
+        <div class="icon">⚡</div>
+        <div class="content">
+            <h3>Chapter 2: Speed Math & Applications</h3>
+            <p>Profit & loss, interest, speed and calculations</p>
+        </div>
+    </div>
+    <div class="card c3" onclick="openChapter('chapter3')">
+        <div class="icon">🧠</div>
+        <div class="content">
+            <h3>Chapter 3: Logical & Analytical Reasoning</h3>
+            <p>Series, coding, directions and logical puzzles</p>
+        </div>
+    </div>
+    <div class="card c4" onclick="openChapter('chapter4')">
+        <div class="icon">📖</div>
+        <div class="content">
+            <h3>Chapter 4: Verbal Ability</h3>
+            <p>Grammar, sentence formation and comprehension</p>
+        </div>
+    </div>
+    <div class="card c5" onclick="openChapter('chapter5')">
+        <div class="icon">📊</div>
+        <div class="content">
+            <h3>Chapter 5: Visual Reasoning & Data Skills</h3>
+            <p>Charts, graphs, figures and visual problems</p>
+        </div>
+    </div>
+</div>
+
+<!-- CHAPTER 1 -->
+<div class="chapter-container" id="chapter1">
+    <!-- Fractions -->
+    <div class="slide active">
+        <h2>Fractions 🍕</h2>
+        <p>Fractions are used to represent parts of a whole. Example: 1/2 means one part out of two equal parts.</p>
+        <div class="example"><span>🍕</span><p>1/2 of a pizza → Cut into 2 equal slices, take 1 slice → 1/2</p></div>
+        <div class="practice">📝 Practice: Convert 3/4 into a fraction of 8 slices.</div>
+    </div>
+    <!-- Decimals -->
+    <div class="slide">
+        <h2>Decimals 🔢</h2>
+        <p>Decimals are another way of representing fractions. Example: 0.5 = 1/2</p>
+        <div class="example"><span>🔢</span><p>0.75 = 3/4 → 0.75 of 100 = 75</p></div>
+        <div class="practice">📝 Practice: Convert 2/5 to decimal.</div>
+    </div>
+    <!-- Ratios -->
+    <div class="slide">
+        <h2>Ratios ⚖️</h2>
+        <p>A ratio compares two quantities. Example: For 2 apples and 3 oranges, the ratio is 2:3.</p>
+        <div class="example"><span>🍎</span><p>2 boys and 3 girls → Ratio = 2:3</p></div>
+        <div class="practice">📝 Practice: 6 red balls, 9 blue balls → Ratio?</div>
+    </div>
+    <!-- Percentages -->
+    <div class="slide">
+        <h2>Percentages 🏷️</h2>
+        <p>Percentage expresses a fraction out of 100. Example: 60/100 = 60%</p>
+        <div class="example"><span>%</span><p>Marks: 45/50 → (45 ÷ 50) × 100 = 90%</p></div>
+        <div class="practice">📝 Practice: Find 20% of 250.</div>
+    </div>
+    <!-- Averages -->
+    <div class="slide">
+        <h2>Averages 📊</h2>
+        <p>Average is sum of numbers divided by total numbers.</p>
+        <div class="example"><span>📊</span><p>Numbers: 5,10,15 → Sum=30 → Average=30÷3=10</p></div>
+        <div class="practice">📝 Practice: Average of 8,12,20?</div>
+    </div>
+    <!-- Mixed -->
+    <div class="slide">
+        <h2>Mixed Arithmetic 🧮</h2>
+        <p>Combine fractions, decimals, ratios, percentages and averages for problem-solving.</p>
+        <div class="example"><span>🧮</span><p>10% of 500 → 0.1×500 = 50</p></div>
+        <div class="practice">📝 Practice: Score 80/100 → %?</div>
+    </div>
+    <div class="nav"><button id="prev1">⬅ Previous</button><button id="next1">Next ➡</button></div>
+</div>
+
+<!-- CHAPTER 2 -->
+<div class="chapter-container" id="chapter2">
+    <!-- Profit/Loss -->
+    <div class="slide active">
+        <h2>Profit & Loss 💰</h2>
+        <p>Profit occurs when selling price > cost price, Loss occurs when selling price < cost price.</p>
+        <div class="example"><span>🛒</span><p>Buy ₹200, Sell ₹250 → Profit = ₹50</p></div>
+        <div class="practice">📝 Practice: Buy ₹40, Sell ₹35 → Profit or Loss?</div>
+    </div>
+    <!-- Simple Interest -->
+    <div class="slide">
+        <h2>Simple Interest 🏦</h2>
+        <p>SI = (Principal × Rate × Time)/100. Money earned/paid on loans or deposits.</p>
+        <div class="example"><span>🏦</span><p>₹1000, 1yr, 10% → SI=1000×10×1/100=100 → Total = 1100</p></div>
+        <div class="practice">📝 Practice: ₹500, 2yrs, 8% → SI?</div>
+    </div>
+    <!-- Speed -->
+    <div class="slide">
+        <h2>Speed, Distance & Time 🚴</h2>
+        <p>Speed = Distance ÷ Time, Distance = Speed × Time, Time = Distance ÷ Speed.</p>
+        <div class="example"><span>🚴‍♂️</span><p>20 km in 2 hrs → Speed = 20 ÷ 2 = 10 km/h</p></div>
+        <div class="practice">📝 Practice: 120 km in 4 hrs → Speed?</div>
+    </div>
+    <!-- Time & Work -->
+    <div class="slide">
+        <h2>Time & Work 👷</h2>
+        <p>Work done = Rate × Time. Combined work adds rates of multiple workers.</p>
+        <div class="example"><span>👷‍♂️</span><p>Job in 10 days → 1/10 work/day</p></div>
+        <div class="practice">📝 Practice: 5 workers, 5 days → Fraction of work/day?</div>
+    </div>
+    <!-- Mixed -->
+    <div class="slide">
+        <h2>Mixed Speed Math ⚡</h2>
+        <p>Combine profit, SI, speed, and time & work for problem-solving.</p>
+        <div class="example"><span>🧮</span><p>Buy ₹300, Sell ₹360 → Profit = ₹60</p></div>
+        <div class="practice">📝 Practice: Cyclist covers 30km in 3hrs → Distance in 1hr?</div>
+    </div>
+    <div class="nav"><button id="prev2">⬅ Previous</button><button id="next2">Next ➡</button></div>
+</div>
+
+<script>
+function openChapter(id){
+    document.getElementById('indexPage').style.display='none';
+    document.getElementById(id).style.display='block';
+}
+
+function initChapter(chapterId, prevBtnId, nextBtnId){
+    const chapter = document.getElementById(chapterId);
+    const slides = chapter.querySelectorAll('.slide');
+    if(slides.length===0) return;
+    let current=0;
+    const prev=document.getElementById(prevBtnId);
+    const next=document.getElementById(nextBtnId);
+    function show(){slides.forEach(s=>s.classList.remove('active'));slides[current].classList.add('active');prev.disabled=current===0;next.disabled=current===slides.length-1;}
+    prev.onclick=()=>{if(current>0){current--;show();}}; next.onclick=()=>{if(current<slides.length-1){current++;show();}}; show();
+}
+
+document.querySelectorAll('.card').forEach(c=>{
+    c.addEventListener('click',()=>{
+        const id = c.getAttribute('onclick').match(/'(.+?)'/)[1];
+        if(id==='chapter1') initChapter('chapter1','prev1','next1');
+        if(id==='chapter2') initChapter('chapter2','prev2','next2');
+    });
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Aptitude Quiz</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- Google Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    * {
+      box-sizing: border-box;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    body {
+      margin: 0;
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: #333;
+    }
+
+    .container {
+      background: #fff;
+      width: 95%;
+      max-width: 700px;
+      padding: 25px;
+      border-radius: 16px;
+      box-shadow: 0 15px 40px rgba(0,0,0,0.25);
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 20px;
+      color: #4f46e5;
+    }
+
+    .hidden {
+      display: none !important;
+    }
+
+    /* Chapter Buttons */
+    #chapterButtons {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      gap: 15px;
+    }
+
+    .quiz-btn {
+      padding: 15px;
+      border-radius: 12px;
+      border: none;
+      background: #4f46e5;
+      color: white;
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    .quiz-btn:hover {
+      background: #3730a3;
+      transform: translateY(-2px);
+    }
+
+    /* Quiz Section */
+    #quiz {
+      margin-top: 10px;
+    }
+
+    .top-bar {
+      display: flex;
+      justify-content: space-between;
+      font-size: 14px;
+      color: #666;
+      margin-bottom: 10px;
+    }
+
+    #category {
+      font-weight: 600;
+      color: #4f46e5;
+    }
+
+    #question {
+      font-size: 18px;
+      font-weight: 600;
+      margin: 15px 0;
+    }
+
+    #answers button {
+      width: 100%;
+      margin: 8px 0;
+      padding: 12px;
+      border-radius: 10px;
+      border: 2px solid #ddd;
+      background: #f9f9f9;
+      cursor: pointer;
+      font-size: 15px;
+      transition: 0.25s;
+    }
+
+    #answers button:hover {
+      background: #eef2ff;
+      border-color: #4f46e5;
+    }
+
+    #answers button.correct {
+      background: #d1fae5;
+      border-color: #10b981;
+      color: #065f46;
+      font-weight: 600;
+    }
+
+    #answers button.wrong {
+      background: #fee2e2;
+      border-color: #ef4444;
+      color: #7f1d1d;
+      font-weight: 600;
+    }
+
+    #nextBtn {
+      margin-top: 15px;
+      width: 100%;
+      padding: 12px;
+      border-radius: 12px;
+      border: none;
+      background: #22c55e;
+      color: white;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    #nextBtn:disabled {
+      background: #a7f3d0;
+      cursor: not-allowed;
+    }
+
+    /* Result */
+    #result {
+      text-align: center;
+    }
+
+    #score {
+      font-size: 22px;
+      font-weight: 700;
+      margin: 20px 0;
+      color: #4f46e5;
+    }
+
+    .back-btn {
+      padding: 12px 20px;
+      border-radius: 12px;
+      border: none;
+      background: #4f46e5;
+      color: white;
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .back-btn:hover {
+      background: #3730a3;
+    }
+
+  </style>
+</head>
+
+<body>
+
+  <div class="container">
+    <h1>📘 Aptitude Quiz</h1>
+
+    <!-- Chapter Selection -->
+    <div id="chapterButtons">
+      <button class="quiz-btn" data-chapter="1">Chapter 1<br>Arithmetic</button>
+      <button class="quiz-btn" data-chapter="2">Chapter 2<br>Speed Math</button>
+      <button class="quiz-btn" data-chapter="3">Chapter 3<br>Logical Reasoning</button>
+      <button class="quiz-btn" data-chapter="4">Chapter 4<br>Verbal Ability</button>
+      <button class="quiz-btn" data-chapter="5">Chapter 5<br>Non-Verbal & DI</button>
+      <button class="quiz-btn" data-chapter="0">🎯 Mixed Quiz</button>
+    </div>
+
+    <!-- Quiz Area -->
+    <div id="quiz" class="hidden">
+      <div class="top-bar">
+        <div id="category"></div>
+        <div>Q <span id="qNo"></span> / <span id="totalQ"></span></div>
+      </div>
+
+      <div id="question"></div>
+      <div id="answers"></div>
+
+      <button id="nextBtn" disabled>Next Question ➜</button>
+    </div>
+
+    <!-- Result -->
+    <div id="result" class="hidden">
+      <h2>🎉 Quiz Completed!</h2>
+      <div id="score"></div>
+      <button class="back-btn" onclick="location.reload()">Back to Chapters</button>
+    </div>
+
+  </div>
+
+  <!-- Quiz Logic -->
+  <script type="module" src="quiz2.js"></script>
+
+</body>
+</html>

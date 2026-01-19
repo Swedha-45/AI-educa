@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gemini Chatbot</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    /* ===== GLOBAL RESET ===== */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html, body {
+      width: 100%;
+      min-height: 100vh;
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(180deg, #5893ac 0%, #f9fffc 100%);
+      background-attachment: fixed;
+      background-repeat: no-repeat;
+      color: #333;
+    }
+
+    /* ===== HEADER (Matching Design) ===== */
+    header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      z-index: 1000;
+      background: linear-gradient(90deg, #4a90e2, #6a7cff);
+      color: white;
+      padding: 20px;
+      text-align: center;
+      font-size: 24px;
+      font-weight: 600;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .back-btn {
+      position: absolute;
+      left: 20px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: white;
+      text-decoration: none;
+      font-size: 16px;
+      font-weight: 400;
+      background: rgba(255, 255, 255, 0.15);
+      padding: 8px 15px;
+      border-radius: 12px;
+      transition: all 0.3s ease;
+      backdrop-filter: blur(5px);
+    }
+
+    .back-btn:hover {
+      background: rgba(255, 255, 255, 0.3);
+      transform: translateX(-3px);
+    }
+
+    /* ===== MAIN CONTAINER ===== */
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 28px;
+      padding-top: 110px;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* ===== CHAT BOX ===== */
+    .chat-wrapper {
+      background: white;
+      border-radius: 20px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      animation: fadeUp 0.6s ease;
+      min-height: 600px;
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    #chatBox {
+      flex: 1;
+      overflow-y: auto;
+      padding: 25px;
+      background: #f8fafc;
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+
+    #chatBox::-webkit-scrollbar {
+      width: 8px;
+    }
+
+    #chatBox::-webkit-scrollbar-track {
+      background: #e2e8f0;
+      border-radius: 4px;
+    }
+
+    #chatBox::-webkit-scrollbar-thumb {
+      background: #cbd5e1;
+      border-radius: 4px;
+    }
+
+    #chatBox::-webkit-scrollbar-thumb:hover {
+      background: #94a3b8;
+    }
+
+    /* ===== MESSAGES ===== */
+    .message {
+      padding: 14px 18px;
+      border-radius: 12px;
+      max-width: 75%;
+      word-wrap: break-word;
+      animation: messageIn 0.3s ease;
+      font-size: 15px;
+      line-height: 1.5;
+    }
+
+    @keyframes messageIn {
+      from {
+        opacity: 0;
+        transform: translateY(10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .user-message {
+      background: linear-gradient(135deg, #4a90e2 0%, #6a7cff 100%);
+      color: white;
+      align-self: flex-end;
+      border-bottom-right-radius: 4px;
+      box-shadow: 0 4px 10px rgba(74, 144, 226, 0.3);
+    }
+
+    .bot-message {
+      background: white;
+      color: #2b2d42;
+      align-self: flex-start;
+      border: 1px solid #e2e8f0;
+      border-bottom-left-radius: 4px;
+      border-left: 4px solid #4a90e2;
+    }
+
+    .hidden {
+      display: none !important;
+    }
+
+    /* ===== EMPTY STATE ===== */
+    .empty-state {
+      text-align: center;
+      color: #94a3b8;
+      margin: auto;
+      padding: 40px;
+    }
+
+    .empty-state svg {
+      width: 80px;
+      height: 80px;
+      margin-bottom: 20px;
+      opacity: 0.5;
+      color: #4a90e2;
+    }
+
+    .empty-state p {
+      font-size: 16px;
+      font-weight: 500;
+    }
+
+    /* ===== INPUT SECTION ===== */
+    .input-container {
+      padding: 20px 25px;
+      background: white;
+      border-top: 2px solid #e2e8f0;
+      display: flex;
+      gap: 12px;
+    }
+
+    #messageInput {
+      flex: 1;
+      padding: 14px 18px;
+      border: 2px solid #e2e8f0;
+      border-radius: 12px;
+      font-size: 15px;
+      outline: none;
+      transition: all 0.3s ease;
+      font-family: 'Poppins', sans-serif;
+      background: #f8fafc;
+    }
+
+    #messageInput:focus {
+      border-color: #4a90e2;
+      box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.1);
+      background: white;
+    }
+
+    #sendBtn {
+      background: linear-gradient(90deg, #4a90e2, #6a7cff);
+      color: white;
+      border: none;
+      padding: 14px 32px;
+      border-radius: 12px;
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-family: 'Poppins', sans-serif;
+      box-shadow: 0 4px 15px rgba(74, 144, 226, 0.3);
+    }
+
+    #sendBtn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(74, 144, 226, 0.4);
+    }
+
+    #sendBtn:active {
+      transform: translateY(0);
+    }
+
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 600px) {
+      header { 
+        font-size: 18px; 
+        padding: 15px; 
+      }
+      
+      .back-btn { 
+        left: 10px; 
+        padding: 6px 10px; 
+        font-size: 14px; 
+      }
+      
+      .container {
+        padding: 15px;
+        padding-top: 90px;
+      }
+
+      .chat-wrapper {
+        min-height: 500px;
+      }
+
+      .message {
+        max-width: 85%;
+        font-size: 14px;
+      }
+
+      #messageInput {
+        font-size: 14px;
+      }
+
+      #sendBtn {
+        padding: 14px 24px;
+        font-size: 14px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <a href="result.html" class="back-btn">
+    ← Home
+  </a>
+  APTITUDE Chatbot
+</header>
+
+<div class="container">
+  <div class="chat-wrapper">
+    <div id="chatBox">
+      <div class="empty-state">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
+        </svg>
+        <p>Start a conversation with the AI</p>
+      </div>
+
+      <div id="statusIndicator" class="message bot-message hidden">
+        <i>AI is thinking...</i>
+      </div>
+    </div>
+
+    <div class="input-container">
+      <input id="messageInput" placeholder="Ask something..." />
+      <button id="sendBtn">Send</button>
+    </div>
+  </div>
+</div>
+
+<script type="module" src="chat.js"></script>
+</body>
+</html>
