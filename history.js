@@ -1,8 +1,22 @@
 import { auth, db } from "./firebase.js";
 import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
-import { collection, getDocs, query, where, orderBy } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+import { collection, getDocs, query, where, orderBy, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
 const historyBody = document.getElementById("historyBody");
+
+// --- Home redirection function ---
+async function goHome() {
+  const user = auth.currentUser;
+  if (!user) return window.location.href = "login.html";
+
+  const userDoc = await getDoc(doc(db, "users", user.uid));
+  const grade = userDoc.data()?.grade;
+  const homePage = (grade >= 9 && grade <= 10) ? "home910.html" : "home38.html";
+  window.location.href = homePage;
+}
+
+// Make it global
+window.goHome = goHome;
 
 async function loadHistory(uid) {
     try {

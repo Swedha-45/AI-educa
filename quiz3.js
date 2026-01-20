@@ -162,9 +162,48 @@ async function showResult(){
   }
 }
 
+/* ---------------- Home redirection function ---------------- */
+async function goHome() {
+    const user = auth.currentUser;
+    if (!user) {
+        window.location.href = "login.html";
+        return;
+    }
+
+    try {
+        const userDoc = await getDoc(doc(db, "users", user.uid));
+        const userData = userDoc.data();
+        
+        // Check for 'grade' or 'standard' and convert to Number
+        const grade = Number(userData?.grade || userData?.standard);
+        
+        if (grade >= 9 && grade <= 10) {
+            window.location.href = "home910.html";
+        } else {
+            // Default for grades 3-8 or if grade is not found
+            window.location.href = "home38.html";
+        }
+    } catch (err) {
+        console.error("Redirection error:", err);
+        window.location.href = "home38.html"; // Safe fallback
+    }
+}
+
+// Make it global for the onclick attribute
+window.goHome = goHome;
 /* ---------------- AUTH + BUTTON ENABLE ---------------- */
 onAuthStateChanged(auth, async (user)=>{
   if(!user) return window.location.href="login.html";
+
+  // Fetch user grade
+  const userDoc = await getDoc(doc(db, "users", user.uid));
+  const grade = Number(userDoc.data()?.grade);
+  const allowedGrades = [9, 10]; // For quiz3
+  if (!allowedGrades.includes(grade)) {
+    alert("This quiz is not available for your grade.");
+    const homePage = (grade >= 9 && grade <= 10) ? "home910.html" : "home38.html";
+    return window.location.href = homePage;
+  }
 
   const snap = await getDocs(collection(db,"users",user.uid,"activities"));
   const completedChapters = snap.docs

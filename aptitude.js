@@ -248,18 +248,33 @@ function showResult() {
 /* ---------------- FIRESTORE SAVE ---------------- */
 async function saveQuizResult(uid) {
   try {
-    const quizRef = collection(db, "users", uid, "quizHistory");
+    const quizRef = collection(db, "users", uid, "activities");
     await addDoc(quizRef, {
+      type: "quiz",
       grade: quiz.grade,
       score: quiz.score,
       total: quiz.questions.length,
-      date: serverTimestamp()
+      completedAt: serverTimestamp()
     });
     console.log("Quiz result saved for user:", uid);
   } catch (err) {
     console.error("Error saving quiz:", err);
   }
 }
+
+/* ---------------- Home redirection function ---------------- */
+async function goHome() {
+  const user = auth.currentUser;
+  if (!user) return window.location.href = "login.html";
+
+  const userDoc = await getDoc(doc(db, "users", user.uid));
+  const grade = userDoc.data()?.grade;
+  const homePage = (grade >= 9 && grade <= 10) ? "home910.html" : "home38.html";
+  window.location.href = homePage;
+}
+
+// Make it global
+window.goHome = goHome;
 
 /* ---------------- AUTH STATE ---------------- */
 window.addEventListener("DOMContentLoaded", () => {

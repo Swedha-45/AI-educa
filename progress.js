@@ -1,8 +1,10 @@
 import { auth, db } from "./firebase.js";
 import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
-import { collection, getDocs, query, where } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+// Added getDoc and doc here
+import { collection, getDocs, query, where, getDoc, doc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
-let myChart = null; // Global chart variable
+let myChart = null; 
+const homeBtn = document.getElementById("homeBtn"); // Reference the button
 
 async function loadProgress(uid) {
     try {
@@ -53,19 +55,16 @@ async function loadProgress(uid) {
             }
         });
 
-        // ---------- 4. FETCH APTITUDE LESSONS FROM FIRESTORE ----------
+        // ---------- 4. FETCH APTITUDE LESSONS ----------
         const activitySnap2 = await getDocs(collection(db, "users", uid, "activities"));
         activitySnap2.forEach(docSnap => {
-        const data = docSnap.data();
-
-        if (data.type === "chapter" && data.completedAt) {
-            const date = data.completedAt.toDate();
-            const dateKey = date.toLocaleDateString(undefined, { month: "short", day: "numeric" });
-        
-             if (countsByDate[dateKey]) countsByDate[dateKey].lesson++;
-    }
-});
-
+            const data = docSnap.data();
+            if (data.type === "chapter" && data.completedAt) {
+                const date = data.completedAt.toDate();
+                const dateKey = date.toLocaleDateString(undefined, { month: "short", day: "numeric" });
+                if (countsByDate[dateKey]) countsByDate[dateKey].lesson++;
+            }
+        });
 
         // ---------- 5. UPDATE UI STATS ----------
         document.getElementById("totalAttempts").innerText = quizAttempts;
@@ -91,8 +90,7 @@ async function loadProgress(uid) {
 
 function renderChart(labels, quizData, activityData, lessonData) {
     const ctx = document.getElementById("taskChart").getContext("2d");
-
-    if (myChart) myChart.destroy(); // Prevent duplicate charts
+    if (myChart) myChart.destroy(); 
 
     myChart = new Chart(ctx, {
         type: "line",
@@ -154,7 +152,27 @@ function renderChart(labels, quizData, activityData, lessonData) {
 }
 
 // ---------- AUTH OBSERVER ----------
-onAuthStateChanged(auth, user => {
-    if (user) loadProgress(user.uid);
-    else window.location.href = "login.html";
+onAuthStateChanged(auth, async (user) => {
+    if (user) {
+        loadProgress(user.uid);
+
+        // --- NEW REDIRECT LOGIC FOR HOME BUTTON ---
+        if (homeBtn) {
+            homeBtn.addEventListener("click", async () => {
+                const userDocRef = doc(db, "users", user.uid);
+                const userSnap = await getDoc(userDocRef);
+
+                if (userSnap.exists()) {
+                    const grade = parseInt(userSnap.data().grade);
+                    if (grade >= 3 && grade <= 8) {
+                        window.location.href = "home38.html";
+                    } else if (grade >= 9 && grade <= 10) {
+                        window.location.href = "home910.html";
+                    }
+                }
+            });
+        }
+    } else {
+        window.location.href = "login.html";
+    }
 });

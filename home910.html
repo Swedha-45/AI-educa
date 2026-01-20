@@ -1,0 +1,611 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MENTRA - Grades 9-10 Dashboard</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --primary: #1e40af;
+  --primary-light: #3b82f6;
+  --primary-dark: #1e3a8a;
+  --secondary: #0ea5e9;
+  --accent: #06b6d4;
+  --bg: #eff6ff;
+  --card-bg: #ffffff;
+  --text-primary: #1e293b;
+  --text-secondary: #64748b;
+  --border: #bfdbfe;
+  --shadow: rgba(30, 64, 175, 0.1);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Poppins', sans-serif;
+  background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
+  color: var(--text-primary);
+  line-height: 1.6;
+  min-height: 100vh;
+}
+
+/* ===== TOP NAVBAR ===== */
+.navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  background: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%);
+  box-shadow: 0 4px 20px rgba(30, 64, 175, 0.3);
+  z-index: 1000;
+  padding: 0 2rem;
+  height: 75px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 26px;
+  font-weight: 700;
+  color: white;
+}
+
+.logo-icon {
+  width: 50px;
+  height: 50px;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 28px;
+  backdrop-filter: blur(10px);
+  border: 2px solid rgba(255, 255, 255, 0.3);
+}
+
+.logout-btn {
+  padding: 10px 24px;
+  background: rgba(255, 255, 255, 0.2);
+  color: white;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-radius: 10px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-size: 14px;
+  backdrop-filter: blur(10px);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.logout-btn:hover {
+  background: rgba(255, 255, 255, 0.3);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+/* ===== MAIN CONTENT ===== */
+.main-content {
+  margin-top: 95px;
+  padding: 2rem;
+  max-width: 1400px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Quote Section */
+.quote-section {
+  background: linear-gradient(135deg, #1e40af 0%, #0ea5e9 100%);
+  border-radius: 20px;
+  padding: 2.5rem;
+  color: white;
+  margin-bottom: 2.5rem;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 10px 40px rgba(30, 64, 175, 0.3);
+}
+
+.quote-section::before {
+  content: '"';
+  position: absolute;
+  top: -20px;
+  left: 20px;
+  font-size: 120px;
+  opacity: 0.1;
+  font-family: Georgia, serif;
+}
+
+.quote-text {
+  font-size: 1.4rem;
+  font-style: italic;
+  margin-bottom: 1rem;
+  position: relative;
+  z-index: 1;
+  line-height: 1.8;
+}
+
+.quote-author {
+  font-size: 1rem;
+  opacity: 0.9;
+  font-weight: 500;
+  text-align: right;
+}
+
+/* Navigation Cards Grid */
+.nav-cards-section {
+  margin-bottom: 2.5rem;
+}
+
+.section-title {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: var(--primary-dark);
+  margin-bottom: 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.nav-cards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.nav-card {
+  background: var(--card-bg);
+  border-radius: 16px;
+  padding: 2rem;
+  box-shadow: 0 4px 20px var(--shadow);
+  transition: all 0.4s ease;
+  cursor: pointer;
+  text-decoration: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  border: 2px solid transparent;
+  position: relative;
+  overflow: hidden;
+}
+
+.nav-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(59, 130, 246, 0.1), transparent);
+  transition: 0.5s;
+}
+
+.nav-card:hover::before {
+  left: 100%;
+}
+
+.nav-card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 12px 35px rgba(30, 64, 175, 0.25);
+  border-color: var(--primary-light);
+}
+
+.nav-card-icon {
+  font-size: 48px;
+  margin-bottom: 1rem;
+  transition: 0.3s;
+}
+
+.nav-card:hover .nav-card-icon {
+  transform: scale(1.2) rotate(5deg);
+}
+
+.nav-card-title {
+  font-size: 1.3rem;
+  font-weight: 600;
+  color: var(--primary-dark);
+  margin-bottom: 0.5rem;
+}
+
+.nav-card-desc {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  line-height: 1.5;
+}
+
+/* Progress Section */
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.card {
+  background: var(--card-bg);
+  border-radius: 16px;
+  padding: 1.5rem;
+  box-shadow: 0 4px 15px var(--shadow);
+  transition: all 0.3s ease;
+  border: 1px solid var(--border);
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 25px rgba(30, 64, 175, 0.2);
+}
+
+.card-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 1rem;
+  padding-bottom: 1rem;
+  border-bottom: 2px solid var(--border);
+}
+
+.card-icon {
+  font-size: 24px;
+}
+
+.card h3 {
+  font-size: 1.2rem;
+  color: var(--primary-dark);
+  font-weight: 600;
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.stat-item {
+  text-align: center;
+  padding: 1rem;
+  background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%);
+  border-radius: 12px;
+}
+
+.stat-number {
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--primary);
+}
+
+.stat-label {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  margin-top: 0.25rem;
+}
+
+.achievement-box {
+  margin-top: 1.5rem;
+  padding: 1.5rem;
+  background: linear-gradient(135deg, #dbeafe 0%, #e0f2fe 100%);
+  border-radius: 12px;
+  text-align: center;
+  border: 2px solid var(--primary-light);
+}
+
+.achievement-icon {
+  font-size: 2rem;
+  margin-bottom: 0.5rem;
+}
+
+.achievement-text {
+  font-weight: 600;
+  color: var(--primary);
+  font-size: 1.1rem;
+}
+
+/* History Section */
+.history-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.history-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 1rem;
+  background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+  border-radius: 10px;
+  border-left: 4px solid var(--primary);
+  transition: 0.3s;
+}
+
+.history-item:hover {
+  transform: translateX(5px);
+  box-shadow: 0 4px 12px rgba(30, 64, 175, 0.15);
+}
+
+.history-icon {
+  font-size: 24px;
+}
+
+.history-content {
+  flex: 1;
+}
+
+.history-topic {
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 0.25rem;
+}
+
+.history-time {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+}
+
+/* Animations */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.fade-in {
+  animation: fadeInUp 0.6s ease;
+}
+
+/* Mobile Responsive */
+@media (max-width: 768px) {
+  .navbar {
+    padding: 0 1rem;
+  }
+
+  .logo {
+    font-size: 20px;
+  }
+
+  .logo-icon {
+    width: 40px;
+    height: 40px;
+    font-size: 22px;
+  }
+
+  .logout-btn {
+            background-color: var(--navy-deep);
+            color: white;
+            padding: 10px 22px;
+            border-radius: 10px;
+            border: none;
+            font-weight: 600;
+            font-size: 13px;
+            cursor: pointer;
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: 0 4px 6px rgba(15, 23, 42, 0.1);
+        }
+
+        .logout-btn:hover {
+            background-color: var(--blue-primary);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(37, 99, 235, 0.2);
+        }
+
+  .main-content {
+    padding: 1rem;
+  }
+
+  .quote-section {
+    padding: 1.5rem;
+  }
+
+  .quote-text {
+    font-size: 1.1rem;
+  }
+
+  .section-title {
+    font-size: 1.4rem;
+  }
+
+  .nav-cards-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .dashboard-grid {
+    grid-template-columns: 1fr;
+  }
+}
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 26px;
+  font-weight: 700;
+  color: white;
+}
+
+.logo img {
+  width: 50px;
+  height: 50px;
+  border-radius: 12px;
+  object-fit: cover;
+}
+
+.logo-icon {
+  width: 50px;
+  height: 50px;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 28px;
+  backdrop-filter: blur(10px);
+  border: 2px solid rgba(255, 255, 255, 0.3);
+}
+</style>
+</head>
+
+<body>
+
+<!-- NAVBAR -->
+<nav class="navbar">
+  <div class="logo">
+    <img src="image.png" alt="AI learning">
+    <span>MENTRA</span>
+  </div>
+
+  <button class="logout-btn" onclick="logout()">
+    
+    <span>Logout</span>
+  </button>
+</nav>
+
+<!-- MAIN CONTENT -->
+<main class="main-content">
+
+  <!-- Quote Section -->
+  <section class="quote-section fade-in">
+    <div class="quote-text" id="quoteText">
+      "The capacity to learn is a gift; the ability to learn is a skill; the willingness to learn is a choice."
+    </div>
+    <div class="quote-author" id="quoteAuthor">
+      — Brian Herbert
+    </div>
+  </section>
+
+  <!-- Navigation Cards Section -->
+  <section class="nav-cards-section">
+    <h2 class="section-title">🎯 Quick Access</h2>
+    <div class="nav-cards-grid">
+      
+      <a href="aptituhigher.html" class="nav-card fade-in">
+        <div class="nav-card-icon">📚</div>
+        <h3 class="nav-card-title">My Learning</h3>
+        <p class="nav-card-desc">Access your courses, lessons, and learning materials</p>
+      </a>
+
+      <a href="chat.html" class="nav-card fade-in">
+        <div class="nav-card-icon">💬</div>
+        <h3 class="nav-card-title">AI Mentor</h3>
+        <p class="nav-card-desc">Get instant help and guidance from your AI mentor</p>
+      </a>
+      <a href="quiz3.html" class="nav-card fade-in">
+        <div class="nav-card-icon">!!!</div>
+        <h3 class="nav-card-title">Quiz</h3>
+        <p class="nav-card-desc">Take a quiz and test your knowledge</p>
+      </a>
+
+      <a href="notes.html" class="nav-card fade-in">
+        <div class="nav-card-icon">✍️</div>
+        <h3 class="nav-card-title">Notes</h3>
+        <p class="nav-card-desc">Create, organize, and review your study notes</p>
+      </a>
+
+      <a href="progress.html" class="nav-card fade-in">
+        <div class="nav-card-icon">📊</div>
+        <h3 class="nav-card-title">Progress</h3>
+        <p class="nav-card-desc">Track your learning journey and achievements</p>
+      </a>
+
+      <a href="history.html" class="nav-card fade-in">
+        <div class="nav-card-icon">🕐</div>
+        <h3 class="nav-card-title">History</h3>
+        <p class="nav-card-desc">Review your past learning sessions and topics</p>
+      </a>
+
+      
+
+    </div>
+  </section>
+
+
+
+</main>
+
+<script>
+// Inspirational quotes array
+const quotes = [
+  {
+    text: "The capacity to learn is a gift; the ability to learn is a skill; the willingness to learn is a choice.",
+    author: "Brian Herbert"
+  },
+  {
+    text: "Education is the most powerful weapon which you can use to change the world.",
+    author: "Nelson Mandela"
+  },
+  {
+    text: "The beautiful thing about learning is that no one can take it away from you.",
+    author: "B.B. King"
+  },
+  {
+    text: "Live as if you were to die tomorrow. Learn as if you were to live forever.",
+    author: "Mahatma Gandhi"
+  },
+  {
+    text: "The more that you read, the more things you will know. The more that you learn, the more places you'll go.",
+    author: "Dr. Seuss"
+  },
+  {
+    text: "Learning never exhausts the mind.",
+    author: "Leonardo da Vinci"
+  },
+  {
+    text: "An investment in knowledge pays the best interest.",
+    author: "Benjamin Franklin"
+  }
+];
+
+// Display random quote on page load
+function displayRandomQuote() {
+  const randomIndex = Math.floor(Math.random() * quotes.length);
+  const quote = quotes[randomIndex];
+  document.getElementById('quoteText').textContent = quote.text;
+  document.getElementById('quoteAuthor').textContent = `— ${quote.author}`;
+}
+
+// Logout function
+function logout() {
+    window.location.href = 'login.html';
+  }
+
+
+// Initialize
+displayRandomQuote();
+
+// Animate elements on scroll
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.style.opacity = '1';
+      entry.target.style.transform = 'translateY(0)';
+    }
+  });
+}, { threshold: 0.1 });
+
+document.querySelectorAll('.fade-in').forEach(el => {
+  el.style.opacity = '0';
+  el.style.transform = 'translateY(20px)';
+  el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+  observer.observe(el);
+});
+</script>
+
+</body>
+</html>

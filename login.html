@@ -252,7 +252,15 @@ form.onsubmit = async (e) => {
     const user = await window.loginUser();
     message.style.display = 'block';
     message.textContent = `Welcome ${user.email}`;
-    setTimeout(() => location.href = 'result.html', 800);
+    
+    // Get user grade and redirect accordingly
+    const grade = await window.getUserGrade();
+    let redirectUrl = 'home38.html'; // default for grades 3-8
+    if (grade >= 9 && grade <= 10) {
+      redirectUrl = 'home910.html';
+    }
+    
+    setTimeout(() => location.href = redirectUrl, 800);
   } catch (err) {
     message.style.display = 'block';
     message.style.background = '#fef2f2';

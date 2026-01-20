@@ -188,7 +188,7 @@ async function submitChapter() {
 
 // --- Optional: Redirect to results page ---
 function hometime() {
-  window.location.href = "result.html";
+  window.location.href = "home910.html";
 }
 
 // --- Event Listeners ---

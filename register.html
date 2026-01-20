@@ -308,26 +308,38 @@ button[type="submit"]:hover {
   const message = document.getElementById('message');
 
   form.onsubmit = async (e) => {
-    e.preventDefault();
-    submitBtn.disabled = true;
-    message.style.display = 'none';
+  e.preventDefault();
+  submitBtn.disabled = true;
+  message.style.display = 'none';
 
-    try {
-      const user = await window.registerUser();
-      message.style.display = 'block';
-      message.style.background = '#ecfdf5';
-      message.style.color = '#065f46';
-      message.textContent = `Account created. Welcome ${user.email}`;
+  try {
+    const user = await window.registerUser();
+
+    message.style.display = 'block';
+    message.style.background = '#ecfdf5';
+    message.style.color = '#065f46';
+    message.textContent = `Account created. Welcome ${user.email}`;
+
+    // Determine redirect based on selected grade
+    const grade = parseInt(document.getElementById('standard').value);
+    if (grade >= 3 && grade <= 8) {
       setTimeout(() => location.href = 'aptitude.html', 900);
-    } catch (err) {
-      message.style.display = 'block';
-      message.style.background = '#fef2f2';
-      message.style.color = '#991b1b';
-      message.textContent = err.message || 'Registration failed';
-    } finally {
-      submitBtn.disabled = false;
+    } else if (grade === 9 || grade === 10) {
+      setTimeout(() => location.href = 'aptitude.html', 900);
+    } else {
+      setTimeout(() => location.href = 'result.html', 900); // fallback
     }
-  };
+
+  } catch (err) {
+    message.style.display = 'block';
+    message.style.background = '#fef2f2';
+    message.style.color = '#991b1b';
+    message.textContent = err.message || 'Registration failed';
+  } finally {
+    submitBtn.disabled = false;
+  }
+};
+
 </script>
 
 </body>

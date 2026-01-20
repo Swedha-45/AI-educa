@@ -6,7 +6,9 @@ import {
     query, 
     orderBy, 
     onSnapshot, 
-    serverTimestamp 
+    serverTimestamp,
+    doc,
+    getDoc
 } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
 const chatBox = document.getElementById("chatBox");
@@ -14,6 +16,20 @@ const input = document.getElementById("messageInput");
 const sendBtn = document.getElementById("sendBtn");
 
 let currentUser = null;
+
+// --- Home redirection function ---
+async function goHome() {
+  const user = auth.currentUser;
+  if (!user) return window.location.href = "login.html";
+
+  const userDoc = await getDoc(doc(db, "users", user.uid));
+  const grade = userDoc.data()?.grade;
+  const homePage = (grade >= 9 && grade <= 10) ? "home910.html" : "home38.html";
+  window.location.href = homePage;
+}
+
+// Make it global
+window.goHome = goHome;
 
 // 1. AUTH CHECK & REAL-TIME LOAD
 onAuthStateChanged(auth, (user) => {
